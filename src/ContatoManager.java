@@ -92,8 +92,7 @@ public class ContatoManager {
                 if (!novoNome.isEmpty()) {
                     contatos[indiceContato].setNome(novoNome);
                 }
-
-                return "Contato atualizado.";
+                return "Contato com id " + contatos[indiceContato].getId() + " atualizado.";
             }
         }
         return "Contato não encontrado.";
