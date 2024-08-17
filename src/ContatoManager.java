@@ -145,19 +145,6 @@ public class ContatoManager {
         return "Contato não encontrado.";
     }
 
-    // Método para obter um contato pelo índice
-    public Contato getContato(int index) {
-        if (index < 0 || index >= tamanho) { // Verifica se o índice é válido
-            throw new IndexOutOfBoundsException("Índice fora dos limites."); // Lança exceção se o índice for inválido
-        }
-        return contatos[index]; // Retorna o contato na posição especificada
-    }
-
-    // Método para obter o número de contatos ativos
-    public int getTamanho() {
-        return tamanho; // Retorna o número atual de contatos no array
-    }
-
     // Método para listar todos os contatos
     public String listarContatos() {
         // Verifica se a lista de contatos está vazia
