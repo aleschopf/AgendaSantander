@@ -1,3 +1,5 @@
+package controlador;
+
 public class ContatoManager {
     private Contato[] contatos;
     private int tamanho;
@@ -74,11 +76,21 @@ public class ContatoManager {
     public String editarContato(String telefone, String novoNome, String novoEmail, String novoTelefone) {
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
             if (contatos[indiceContato].getTelefone().equals(telefone)) {
+                // Verifica se o novo número já existe em outro contato
                 if (!novoTelefone.isEmpty()) {
                     novoTelefone = novoTelefone.replaceAll("\\D", "");
                     if (novoTelefone.length() < 10 || novoTelefone.length() > 11) {
                         return "Número de telefone inválido.";
                     }
+
+                    // Verifica se o novo número já existe em outro contato
+                    for (int i = 0; i < tamanho; i++) {
+                        if (i != indiceContato && contatos[i].getTelefone().equals(novoTelefone)) {
+                            return "O número de telefone " + formatarTelefone(novoTelefone) + " já está cadastrado em outro contato.";
+                        }
+                    }
+
+                    // Atualiza o telefone se não houver conflito
                     contatos[indiceContato].setTelefone(novoTelefone);
                 }
 
@@ -101,6 +113,9 @@ public class ContatoManager {
     public String detalharContato(String telefone) {
         for (int i = 0; i < tamanho; i++) {
             if (contatos[i].getTelefone().equals(telefone)) {
+                // Formatar o telefone
+                String telefoneFormatado = formatarTelefone(contatos[i].getTelefone());
+
                 // Calcular o comprimento máximo das colunas para formatação
                 int maxIdLength = "Id".length();
                 int maxNomeLength = "Nome".length();
@@ -109,7 +124,7 @@ public class ContatoManager {
 
                 maxIdLength = Math.max(maxIdLength, String.valueOf(contatos[i].getId()).length());
                 maxNomeLength = Math.max(maxNomeLength, contatos[i].getNome().length());
-                maxTelefoneLength = Math.max(maxTelefoneLength, contatos[i].getTelefone().length());
+                maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length());
                 maxEmailLength = Math.max(maxEmailLength, contatos[i].getEmail().length());
 
                 // Construir o cabeçalho
@@ -134,7 +149,7 @@ public class ContatoManager {
 
                 builder.append(String.format(
                         "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
-                        contatos[i].getId(), contatos[i].getNome(), contatos[i].getTelefone(), contatos[i].getEmail()
+                        contatos[i].getId(), contatos[i].getNome(), telefoneFormatado, contatos[i].getEmail()
                 )).append("\n");
 
                 builder.append(linha); // Linha final para fechar a tabela
@@ -160,9 +175,10 @@ public class ContatoManager {
 
         // Percorre todos os contatos para encontrar o comprimento máximo de cada coluna
         for (int i = 0; i < tamanho; i++) {
+            String telefoneFormatado = formatarTelefone(contatos[i].getTelefone()); // Formata o telefone
             maxIdLength = Math.max(maxIdLength, String.valueOf(contatos[i].getId()).length()); // Atualiza o comprimento máximo do ID
             maxNomeLength = Math.max(maxNomeLength, contatos[i].getNome().length()); // Atualiza o comprimento máximo do Nome
-            maxTelefoneLength = Math.max(maxTelefoneLength, contatos[i].getTelefone().length()); // Atualiza o comprimento máximo do Telefone
+            maxTelefoneLength = Math.max(maxTelefoneLength, telefoneFormatado.length()); // Atualiza o comprimento máximo do Telefone
             maxEmailLength = Math.max(maxEmailLength, contatos[i].getEmail().length()); // Atualiza o comprimento máximo do Email
         }
 
@@ -187,9 +203,10 @@ public class ContatoManager {
 
         // Adiciona os dados de cada contato na tabela
         for (int indiceContato = 0; indiceContato < tamanho; indiceContato++) {
+            String telefoneFormatado = formatarTelefone(contatos[indiceContato].getTelefone()); // Formata o telefone
             builder.append(String.format(
                     "| %" + maxIdLength + "d | %" + maxNomeLength + "s | %" + maxTelefoneLength + "s | %" + maxEmailLength + "s |",
-                    contatos[indiceContato].getId(), contatos[indiceContato].getNome(), contatos[indiceContato].getTelefone(), contatos[indiceContato].getEmail()
+                    contatos[indiceContato].getId(), contatos[indiceContato].getNome(), telefoneFormatado, contatos[indiceContato].getEmail()
             )).append("\n");
         }
 
@@ -204,5 +221,15 @@ public class ContatoManager {
         Contato[] novaArray = new Contato[novoTamanho]; // Cria um novo array com a nova capacidade
         System.arraycopy(contatos, 0, novaArray, 0, tamanho); // Copia os elementos do array antigo para o novo array
         contatos = novaArray; // Substitui o array antigo pelo novo
+    }
+
+    // Método para formatar o telefone no formato "## #####-####"
+    private String formatarTelefone(String telefone) {
+        if (telefone.length() == 10) {
+            return telefone.replaceFirst("(\\d{2})(\\d{4})(\\d+)", "$1 $2-$3");
+        } else if (telefone.length() == 11) {
+            return telefone.replaceFirst("(\\d{2})(\\d{5})(\\d+)", "$1 $2-$3");
+        }
+        return telefone;
     }
 }

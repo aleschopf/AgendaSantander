@@ -1,3 +1,5 @@
+package controlador;
+
 public class Contato {
     private int id;
     private String nome;
