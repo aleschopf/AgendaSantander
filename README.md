@@ -76,3 +76,8 @@ Além disso, a necessidade de organizar o código de forma clara e eficiente, co
 [<img alt="Lucas Moraes" height="75px" src="https://avatars.githubusercontent.com/u/106927402?v=4" width="75px"/>](https://github.com/lsmoraes16)
 [<img alt="Maria Eduarda" height="75px" src="https://avatars.githubusercontent.com/u/134453107?v=4" width="75px"/>](https://github.com/mariaemrqs)
 [<img alt="Matheus Lima" height="75px" src="https://avatars.githubusercontent.com/u/102155883?v=4" width="75px"/>](https://github.com/mathlimam)
+
+
+## **Licença**
+
+Este projeto é licenciado sob a [MIT License](LICENSE).
