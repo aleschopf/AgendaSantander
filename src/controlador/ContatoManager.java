@@ -219,7 +219,12 @@ public class ContatoManager {
     private void expandirArray() {
         int novoTamanho = contatos.length + 1; // Aumenta a capacidade do array
         Contato[] novaArray = new Contato[novoTamanho]; // Cria um novo array com a nova capacidade
-        System.arraycopy(contatos, 0, novaArray, 0, tamanho); // Copia os elementos do array antigo para o novo array
+
+        // Copia manualmente os elementos do array antigo para o novo array
+        for (int i = 0; i < tamanho; i++) {
+            novaArray[i] = contatos[i];
+        }
+
         contatos = novaArray; // Substitui o array antigo pelo novo
     }
 
